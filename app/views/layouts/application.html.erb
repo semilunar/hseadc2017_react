@@ -6,11 +6,13 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'thereminvox' %>
+    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_pack_tag 'thereminvox' %>
+    <%= javascript_pack_tag 'synth' %>
   </head>
 
   <body>
     <%= yield %>
+    <%# <iframe src="//vk.com/video_ext.php?oid=376451943&id=456239026&hash=90070ed01df97810" width="426" height="240" frameborder="0" allowfullscreen></iframe> %>
   </body>
 </html>

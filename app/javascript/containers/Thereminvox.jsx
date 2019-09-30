@@ -1,4 +1,5 @@
 import React from 'react'
+import Tone from 'tone'
 
 export default class Thereminvox extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class Thereminvox extends React.Component {
     this.changeFrequency = this.changeFrequency.bind(this)
     this.changeDetune = this.changeDetune.bind(this)
     this.changeVisualization = this.changeVisualization.bind(this)
+    this.handleSynthPlay = this.handleSynthPlay.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +58,34 @@ export default class Thereminvox extends React.Component {
     } else {
       this.handleStart()
     }
+  }
+
+  handleSynthPlay() {
+    let synth = new Tone.Synth().toMaster()
+    // synth.triggerAttackRelease('C4', '8n')
+
+    var pattern = new Tone.Pattern(
+      function(time, note) {
+        synth.triggerAttackRelease(note, 0.25)
+      },
+      ['C4', 'D4', 'E4', 'G4', 'A4']
+    )
+
+    pattern.start(0)
+
+    // var loop = new Tone.Loop(function(time) {
+    //   synth.triggerAttackRelease('C2', '8n', time)
+    // }, '4n')
+
+    Tone.Transport.bpm.value = 220
+    Tone.Transport.start()
+
+    //create a distortion effect
+    var distortion = new Tone.Distortion(0.4).toMaster()
+    //connect a synth to the distortion
+    synth.connect(distortion)
+    //
+    // loop.start('1m').stop('4m')
   }
 
   handleStart() {
@@ -141,6 +171,7 @@ export default class Thereminvox extends React.Component {
 
     return (
       <div>
+        <div onClick={this.handleSynthPlay}>Synth Play</div>
         <div onClick={this.handleStartOrStopClick}>{buttonText}</div>
         {elements}
       </div>
