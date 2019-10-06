@@ -1,0 +1,23 @@
+.Slider {
+  position: relative;
+  width: 40%;
+  margin-right: 50px;
+  height: 100px;
+  background: #ffe838;
+  background: #fcfcfc;
+  border-radius: 6px;
+  box-shadow: inset 0px 3px 8px rgba(0, 0, 0, 0.08);
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  .thumb {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  }
+}
