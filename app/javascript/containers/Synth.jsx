@@ -355,10 +355,14 @@ export default class Synth extends React.Component {
     const { lastChange, timeout } = this.state
 
     if (Date.now() - lastChange >= timeout) {
+      const random = this.getRandomArbitrary(100, 3000)
+
       this.setState({
         lastChange: Date.now(),
-        timeout: this.getRandomArbitrary(100, 3000)
+        timeout: random
       })
+
+      this.changeDistortionValue('distortion', random / 10)
     }
 
     setTimeout(() => this.generateRandom(), timeout)
