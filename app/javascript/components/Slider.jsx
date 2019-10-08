@@ -50,7 +50,12 @@ export default class Slider extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { width } = this.state.area
-    nextState.thumb.left = this.calculateLeft(width)
+
+    // if (nextState.thumb.left == this.state.thumb.left)
+    if (nextProps.value != this.props.value) {
+      nextState.thumb.left = this.calculateLeft(width)
+    }
+
     return true
   }
 

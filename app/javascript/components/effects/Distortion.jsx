@@ -15,6 +15,7 @@ export default class Distortion extends React.Component {
     const {
       effect,
       on,
+      wet,
       toggleEffect,
       changeEffectWetValue,
       changeDistortionValue
@@ -31,13 +32,14 @@ export default class Distortion extends React.Component {
             name={name}
             min="0"
             max="1"
-            value={effect.wet.value}
+            value={wet}
             handleValueChange={changeEffectWetValue}
           />
           <Slider
             name={name}
             min="0"
             max="100"
+            on={on}
             value={effect.distortion}
             handleValueChange={changeDistortionValue}
           />
