@@ -362,7 +362,7 @@ export default class Synth extends React.Component {
         timeout: random
       })
 
-      this.changeDistortionValue('distortion', random / 10)
+      this.changeDistortionValue('distortion', random / 30)
     }
 
     setTimeout(() => this.generateRandom(), timeout)

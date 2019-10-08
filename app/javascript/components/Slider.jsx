@@ -48,6 +48,12 @@ export default class Slider extends React.Component {
     document.addEventListener('mousemove', this.handleMouseMove)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { width } = this.state.area
+    nextState.thumb.left = this.calculateLeft(width)
+    return true
+  }
+
   handleDragOver(e) {
     e.preventDefault()
   }
