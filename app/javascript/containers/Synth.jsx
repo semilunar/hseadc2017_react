@@ -3,9 +3,9 @@ import React from 'react'
 import Tone from 'tone'
 
 import PlaySwitch from '../components/PlaySwitch'
-import Slider from '../components/Slider'
-import Knob from '../components/Knob'
-import ToggleSwitch from '../components/ToggleSwitch'
+
+import Distortion from '../components/effects/Distortion'
+import FeedbackDelay from '../components/effects/FeedbackDelay'
 
 export default class Synth extends React.Component {
   constructor(props) {
@@ -22,18 +22,6 @@ export default class Synth extends React.Component {
         rolloff: -12,
         Q: 1
       }
-    })
-
-    let feedbackDelay = new Tone.FeedbackDelay({
-      delayTime: '32n',
-      maxDelay: 10
-    })
-
-    let tremolo = new Tone.Tremolo({
-      frequency: 3,
-      type: 'sine',
-      depth: 2,
-      spread: 180
     })
 
     let distortion = new Tone.Distortion({
@@ -85,6 +73,11 @@ export default class Synth extends React.Component {
       wet: 1
     })
 
+    let feedbackDelay = new Tone.FeedbackDelay({
+      delayTime: '32n',
+      maxDelay: 10
+    })
+
     let feedbackEffect = new Tone.FeedbackEffect({
       feedback: 0.125
     })
@@ -127,6 +120,13 @@ export default class Synth extends React.Component {
       width: 0.5
     })
 
+    let tremolo = new Tone.Tremolo({
+      frequency: 3,
+      type: 'sine',
+      depth: 2,
+      spread: 180
+    })
+
     let vibrato = new Tone.Vibrato({
       maxDelay: 0.005,
       frequency: 5,
@@ -157,6 +157,11 @@ export default class Synth extends React.Component {
     // SYNTH
 
     let synth = new Tone.PolySynth()
+
+    // let synth1 = new Tone.Synth()
+    // let synth2 = new Tone.Synth()
+    // let synth3 = new Tone.Synth()
+    // let synth4 = new Tone.Synth()
 
     synth.chain(
       autoFilter,
@@ -200,10 +205,8 @@ export default class Synth extends React.Component {
     }, '16n')
 
     this.state = {
-      lastChange: {
-        randomDelay: 100,
-        lastChange: Date.now()
-      },
+      lastChange: Date.now(),
+      timeout: 100,
       autoFilter: {
         effect: autoFilter,
         wet: 0,
@@ -327,29 +330,43 @@ export default class Synth extends React.Component {
       'toggleEffect',
       'changeEffectWetValue',
       'changeDistortionValue',
-      'changeStereoWidenerValue'
+      'changeFeedbackDelayValue',
+      'changeStereoWidenerValue',
+      'generateRandom',
+      'getRandomArbitrary',
+      'componentDidMount'
     )
 
     Tone.Transport.bpm.value = 30
     Tone.Transport.start()
   }
 
-  componentDidMount() {}
+  // random
 
-  getRandomArbitrary(max, min) {
+  componentDidMount() {
+    this.generateRandom()
+  }
+
+  getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min)) + min
   }
 
   generateRandom() {
-    const { lastChange, randomDelay } = this.state
+    const { lastChange, timeout } = this.state
 
-    if (Date.now() - lastChange >= randomDelay) {
+    if (Date.now() - lastChange >= timeout) {
       this.setState({
         lastChange: Date.now(),
-        randomDelay: this.getRandomArbitrary(100, 3000)
+        timeout: this.getRandomArbitrary(100, 3000)
       })
     }
+
+    setTimeout(() => this.generateRandom(), timeout)
+
+    // this.generateRandom()
   }
+
+  // random
 
   toggleLoop(loopName) {
     let { loop, on } = this.state[loopName]
@@ -410,6 +427,20 @@ export default class Synth extends React.Component {
     })
   }
 
+  changeFeedbackDelayValue(effectName, value) {
+    let { effect, wet, on } = this.state.feedbackDelay
+
+    effect.maxDelay = value
+
+    this.setState({
+      feedbackDelay: {
+        effect,
+        wet,
+        on
+      }
+    })
+  }
+
   changeStereoWidenerValue(value) {
     let { effect, wet, on } = this.state.stereoWidener
 
@@ -435,6 +466,7 @@ export default class Synth extends React.Component {
       loop4
     } = this.state
     let { toggleEffect } = this
+
     return (
       <div className="container">
         <div className="row">
@@ -463,28 +495,20 @@ export default class Synth extends React.Component {
             handleToggleClick={() => this.toggleLoop('loop4')}
           />
         </div>
-        <div className="row">
-          <ToggleSwitch
-            value="Distortion"
-            current={distortion.on}
-            handleClick={() => toggleEffect('distortion')}
-          />
-          <Slider
-            name="distortion"
-            min="0"
-            max="1"
-            value={distortion.effect.wet.value}
-            handleValueChange={this.changeEffectWetValue}
-          />
-          <Slider
-            name="distortion"
-            min="0"
-            max="100"
-            value={distortion.effect.distortion}
-            handleValueChange={this.changeDistortionValue}
-          />
-        </div>
-        <div className="row"></div>
+
+        <Distortion
+          {...this.state.distortion}
+          toggleEffect={() => toggleEffect('distortion')}
+          changeEffectWetValue={this.changeEffectWetValue}
+          changeDistortionValue={this.changeDistortionValue}
+        />
+
+        <FeedbackDelay
+          {...this.state.feedbackDelay}
+          toggleEffect={() => toggleEffect('feedbackDelay')}
+          changeEffectWetValue={this.changeEffectWetValue}
+          changeFeedbackDelayValue={this.changeFeedbackDelayValue}
+        />
       </div>
     )
   }
