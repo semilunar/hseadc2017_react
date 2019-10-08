@@ -132,21 +132,23 @@ export default class Slider extends React.Component {
     const { left } = this.state.thumb
 
     const style = {
-      transform: `translateX(${left}px)`
+      transform: `translate(${left}px, -24px)`
     }
 
     return (
-      <div
-        className="Slider"
-        ref={this.slideArea}
-        onDragOver={this.handleDragOver}
-        onDrop={this.handleDrop}
-      >
+      <div className="sliderContainer">
         <div
-          className="thumb"
-          style={style}
-          onMouseDown={this.handleMouseDown}
-        />
+          className="Slider"
+          ref={this.slideArea}
+          onDragOver={this.handleDragOver}
+          onDrop={this.handleDrop}
+        >
+          <div
+            className="thumb"
+            style={style}
+            onMouseDown={this.handleMouseDown}
+          />
+        </div>
       </div>
     )
   }

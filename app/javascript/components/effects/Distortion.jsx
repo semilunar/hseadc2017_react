@@ -20,6 +20,7 @@ export default class Distortion extends React.Component {
       changeEffectWetValue,
       changeDistortionValue
     } = this.props
+
     return (
       <div>
         <div className="row">

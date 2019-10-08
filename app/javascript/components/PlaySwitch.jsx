@@ -17,10 +17,6 @@ export default class PlaySwitch extends React.Component {
       switchOff: value
     })
 
-    return (
-      <div className={classes} onClick={handleToggleClick}>
-        {name}
-      </div>
-    )
+    return <div className={classes} onClick={handleToggleClick}></div>
   }
 }

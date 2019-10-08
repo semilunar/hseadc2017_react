@@ -6,6 +6,8 @@ import PlaySwitch from '../components/PlaySwitch'
 
 import Distortion from '../components/effects/Distortion'
 import FeedbackDelay from '../components/effects/FeedbackDelay'
+import Chorus from '../components/effects/Chorus'
+import Reverb from '../components/effects/Reverb'
 
 export default class Synth extends React.Component {
   constructor(props) {
@@ -189,19 +191,19 @@ export default class Synth extends React.Component {
     // LOOP
 
     let loop1 = new Tone.Loop(function(time) {
-      synth.triggerAttackRelease('C2', '8n', time)
+      synth.triggerAttackRelease('C3', '8n', time)
     }, '4n')
 
     let loop2 = new Tone.Loop(function(time) {
-      synth.triggerAttackRelease('E2', '32n', time)
+      synth.triggerAttackRelease('E3', '32n', time)
     }, '32n')
 
     let loop3 = new Tone.Loop(function(time) {
-      synth.triggerAttackRelease('D2', '1n', time)
-    }, '1n')
+      synth.triggerAttackRelease('G3', '1n', time)
+    }, '2n')
 
     let loop4 = new Tone.Loop(function(time) {
-      synth.triggerAttackRelease('A2', '16n', time)
+      synth.triggerAttackRelease('B2', '16n', time)
     }, '16n')
 
     this.state = {
@@ -331,17 +333,16 @@ export default class Synth extends React.Component {
       'changeEffectWetValue',
       'changeDistortionValue',
       'changeFeedbackDelayValue',
-      'changeStereoWidenerValue',
+      'changeReverbValue',
+      'changeChorusValue',
       'generateRandom',
       'getRandomArbitrary',
       'componentDidMount'
     )
 
-    Tone.Transport.bpm.value = 30
+    Tone.Transport.bpm.value = 5
     Tone.Transport.start()
   }
-
-  // random
 
   componentDidMount() {
     this.generateRandom()
@@ -366,11 +367,7 @@ export default class Synth extends React.Component {
     }
 
     setTimeout(() => this.generateRandom(), timeout)
-
-    // this.generateRandom()
   }
-
-  // random
 
   toggleLoop(loopName) {
     let { loop, on } = this.state[loopName]
@@ -445,13 +442,27 @@ export default class Synth extends React.Component {
     })
   }
 
-  changeStereoWidenerValue(value) {
-    let { effect, wet, on } = this.state.stereoWidener
+  changeChorusValue(effectName, value) {
+    let { effect, wet, on } = this.state.chorus
 
-    effect.stereoWidener = value
+    effect.delayTime = value
 
     this.setState({
-      stereoWidener: {
+      chorus: {
+        effect,
+        wet,
+        on
+      }
+    })
+  }
+
+  changeReverbValue(effectName, value) {
+    let { effect, wet, on } = this.state.reverb
+
+    effect.preDelay = value
+
+    this.setState({
+      reverb: {
         effect,
         wet,
         on
@@ -474,30 +485,28 @@ export default class Synth extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <h3 className="heading">Toggle Loop 1</h3>
           <PlaySwitch
             name="play"
             value={loop1.on}
             handleToggleClick={() => this.toggleLoop('loop1')}
           />
-          <h3 className="heading">Toggle Loop 2</h3>
           <PlaySwitch
             name="play"
             value={loop2.on}
             handleToggleClick={() => this.toggleLoop('loop2')}
           />
-          <h3 className="heading">Toggle Loop 3</h3>
           <PlaySwitch
             name="play"
             value={loop3.on}
             handleToggleClick={() => this.toggleLoop('loop3')}
           />
-          <h3 className="heading">Toggle Loop 4</h3>
           <PlaySwitch
             name="play"
             value={loop4.on}
             handleToggleClick={() => this.toggleLoop('loop4')}
           />
+
+          <h1 className="synthName">Super Synth 3000</h1>
         </div>
 
         <Distortion
@@ -512,6 +521,20 @@ export default class Synth extends React.Component {
           toggleEffect={() => toggleEffect('feedbackDelay')}
           changeEffectWetValue={this.changeEffectWetValue}
           changeFeedbackDelayValue={this.changeFeedbackDelayValue}
+        />
+
+        <Chorus
+          {...this.state.chorus}
+          toggleEffect={() => toggleEffect('chorus')}
+          changeEffectWetValue={this.changeEffectWetValue}
+          changeFeedbackDelayValue={this.changeChorusValue}
+        />
+
+        <Reverb
+          {...this.state.reverb}
+          toggleEffect={() => toggleEffect('reverb')}
+          changeEffectWetValue={this.changeEffectWetValue}
+          changeFeedbackDelayValue={this.changeReverbValue}
         />
       </div>
     )

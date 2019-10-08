@@ -13,9 +13,24 @@ body {
   }
 
   .container {
-    width: 100%;
+    width: 60%;
     height: 90%;
     margin: auto;
+    padding: 20px;
+    border-radius: 6px;
+    background: #fcfcfc;
+    border: 2px solid #dedede;
+    box-shadow: 0px 8px 0px 0px #dedede;
+
+    .synthName {
+      text-transform: uppercase;
+      font-family: 'Digital Dream';
+      position: relative;
+      top: -40px;
+      left: 120px;
+      font-size: 22px;
+      color: #636363;
+    }
 
     .heading {
       margin: 40px 0 20px;
@@ -23,7 +38,6 @@ body {
       text-transform: lowercase;
       color: #000;
       opacity: 50%;
-      font-family: 'Spectral';
       width: 180px;
       text-align: center;
       border-bottom: 1px solid dotted;
@@ -32,8 +46,8 @@ body {
     .row {
       display: flex;
       justify-content: flex-start;
-      margin: 50px 0;
       align-items: center;
+      padding: 30px;
     }
 
     .button {

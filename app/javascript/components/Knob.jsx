@@ -8,7 +8,7 @@ export default class Knob extends React.Component {
     this.state = {
       mouseDown: false,
       value: props.value,
-      deg: -90,
+      deg: this.props.initialDeg,
       screenY: 0
     }
 
@@ -29,7 +29,7 @@ export default class Knob extends React.Component {
     this.setState({
       mouseDown: false,
       value: value,
-      deg: -90 + deg,
+      deg: this.props.initialDeg + deg,
       screenY: 0
     })
 
@@ -42,7 +42,7 @@ export default class Knob extends React.Component {
 
     this.setState({
       mouseDown: true,
-      screenY: e.screenY
+      screenY: e.screenX
     })
   }
 
@@ -50,7 +50,7 @@ export default class Knob extends React.Component {
     const { mouseDown } = this.state
 
     if (mouseDown) {
-      this.moveKnob(e.screenY)
+      this.moveKnob(e.screenX)
     }
   }
 
@@ -82,18 +82,18 @@ export default class Knob extends React.Component {
       value = max
     }
 
-    this.props.handleValueChange(value)
+    this.props.handleValueChange(this.props.name, value)
 
     this.setState({
       screenY: screenY,
       value: value,
-      deg: -90 + this.calculateDeg(value)
+      deg: this.props.initialDeg + this.calculateDeg(value)
     })
   }
 
   calculateDeg(value) {
     const { max } = this.props
-    const coef = 120 / max
+    const coef = this.props.overDeg / max
     const deg = value * coef
 
     return deg
@@ -103,7 +103,7 @@ export default class Knob extends React.Component {
     const { deg } = this.state
 
     const style = {
-      transform: `rotate(${-deg}deg)`
+      transform: `rotate(${deg}deg)`
     }
 
     return (
