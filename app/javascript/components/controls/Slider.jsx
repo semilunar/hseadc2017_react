@@ -132,7 +132,7 @@ export default class Slider extends React.Component {
     const { left } = this.state.thumb
 
     const style = {
-      transform: `translate(${left}px, -24px)`
+      transform: `translate(${left}px)`
     }
 
     return (

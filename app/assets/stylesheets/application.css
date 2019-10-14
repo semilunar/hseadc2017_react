@@ -19,3 +19,7 @@
   user-select: none;
   box-sizing: border-box;
 }
+
+body {
+  font-family: 'Sporting Grotesque';
+}

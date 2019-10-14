@@ -1,9 +1,10 @@
 import React from 'react'
 
-import PlaySwitch from '../PlaySwitch'
-import Slider from '../Slider'
-import Knob from '../Knob'
-import ToggleSwitch from '../ToggleSwitch'
+import PlaySwitch from '../controls/PlaySwitch'
+import ToggleSwitch from '../controls/ToggleSwitch'
+import Slider from '../controls/Slider'
+import Knob from '../controls/Knob'
+import ButtonSet from '../controls/ButtonSet'
 
 export default class Reverb extends React.Component {
   constructor(props) {
@@ -11,39 +12,52 @@ export default class Reverb extends React.Component {
   }
 
   render() {
-    let name = 'reverb'
     const {
+      name,
       effect,
       on,
       wet,
       toggleEffect,
       changeEffectWetValue,
-      changeReverbValue
+      changeEffectValue
     } = this.props
 
     return (
-      <div>
-        <div className="row">
-          <ToggleSwitch
-            value="Reverb"
-            current={on}
-            handleClick={toggleEffect}
-          />
-          <Slider
-            name={name}
-            min="0"
-            max="1"
-            value={wet}
-            handleValueChange={changeEffectWetValue}
-          />
-          <Slider
-            name={name}
-            min="0.01"
-            max="0.05"
-            on={on}
-            value={effect.preDelay}
-            handleValueChange={changeReverbValue}
-          />
+      <div className="Effect">
+        <ToggleSwitch value="Reverb" current={on} handleClick={toggleEffect} />
+
+        <div className="controlsContainer">
+          <div className="controlsRow">
+            <h2>Wet</h2>
+            <Slider
+              name={name}
+              property="wet"
+              min="0"
+              max="1"
+              value={wet}
+              handleValueChange={changeEffectWetValue}
+            />
+
+            <h2>Decay</h2>
+            <Slider
+              name={name}
+              property="decay"
+              min="0"
+              max="10"
+              value={effect.decay}
+              handleValueChange={changeEffectValue}
+            />
+
+            <h2>Pre Delay</h2>
+            <Slider
+              name={name}
+              property="preDelay"
+              min="0"
+              max="1"
+              value={effect.preDelay}
+              handleValueChange={changeEffectValue}
+            />
+          </div>
         </div>
       </div>
     )

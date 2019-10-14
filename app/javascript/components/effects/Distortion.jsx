@@ -1,9 +1,10 @@
 import React from 'react'
 
-import PlaySwitch from '../PlaySwitch'
-import Slider from '../Slider'
-import Knob from '../Knob'
-import ToggleSwitch from '../ToggleSwitch'
+import PlaySwitch from '../controls/PlaySwitch'
+import ToggleSwitch from '../controls/ToggleSwitch'
+import Slider from '../controls/Slider'
+import Knob from '../controls/Knob'
+import ButtonSet from '../controls/ButtonSet'
 
 export default class Distortion extends React.Component {
   constructor(props) {
@@ -11,24 +12,28 @@ export default class Distortion extends React.Component {
   }
 
   render() {
-    let name = 'distortion'
+    const set = ['none', '2x', '4x']
+
     const {
+      name,
       effect,
-      on,
       wet,
+      on,
       toggleEffect,
       changeEffectWetValue,
-      changeDistortionValue
+      changeEffectValue
     } = this.props
 
     return (
-      <div>
+      <div className="effect">
         <div className="row">
           <ToggleSwitch
             value="Distortion"
             current={on}
             handleClick={toggleEffect}
           />
+
+          <h2>Wet</h2>
           <Slider
             name={name}
             min="0"
@@ -36,13 +41,25 @@ export default class Distortion extends React.Component {
             value={wet}
             handleValueChange={changeEffectWetValue}
           />
+
+          <h2>Distortion</h2>
           <Slider
             name={name}
+            property="distortion"
             min="0"
             max="100"
             on={on}
             value={effect.distortion}
-            handleValueChange={changeDistortionValue}
+            handleValueChange={changeEffectValue}
+          />
+
+          <h2>Oversample</h2>
+          <ButtonSet
+            name={name}
+            property="oversample"
+            set={set}
+            value={effect.oversample}
+            handleValueChange={changeEffectValue}
           />
         </div>
       </div>

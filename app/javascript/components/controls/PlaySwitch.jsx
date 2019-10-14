@@ -1,6 +1,5 @@
-import classnames from 'classnames'
-
 import React from 'react'
+import classnames from 'classnames'
 
 export default class PlaySwitch extends React.Component {
   constructor(props) {

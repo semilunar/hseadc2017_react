@@ -1,9 +1,10 @@
 import React from 'react'
 
-import PlaySwitch from '../PlaySwitch'
-import Slider from '../Slider'
-import Knob from '../Knob'
-import ToggleSwitch from '../ToggleSwitch'
+import PlaySwitch from '../controls/PlaySwitch'
+import ToggleSwitch from '../controls/ToggleSwitch'
+import Slider from '../controls/Slider'
+import Knob from '../controls/Knob'
+import ButtonSet from '../controls/ButtonSet'
 
 export default class FeedbackDelay extends React.Component {
   constructor(props) {
@@ -11,36 +12,46 @@ export default class FeedbackDelay extends React.Component {
   }
 
   render() {
-    let name = 'feedbackDelay'
     const {
+      name,
       effect,
       on,
+      wet,
       toggleEffect,
       changeEffectWetValue,
-      changeFeedbackDelayValue
+      changeEffectValue
     } = this.props
+
     return (
-      <div>
-        <div className="row">
-          <ToggleSwitch
-            value="Feedback Delay"
-            current={on}
-            handleClick={toggleEffect}
-          />
-          <Slider
-            name={name}
-            min="0"
-            max="1"
-            value={effect.wet.value}
-            handleValueChange={changeEffectWetValue}
-          />
-          <Slider
-            name={name}
-            min="0"
-            max="100"
-            value={effect.maxDelay}
-            handleValueChange={changeFeedbackDelayValue}
-          />
+      <div className="Effect">
+        <ToggleSwitch
+          value="FeedbackDelay"
+          current={on}
+          handleClick={toggleEffect}
+        />
+
+        <div className="controlsContainer">
+          <div className="controlsRow">
+            <h2>Wet</h2>
+            <Slider
+              name={name}
+              property="wet"
+              min="0"
+              max="1"
+              value={wet}
+              handleValueChange={changeEffectWetValue}
+            />
+
+            <h2>Max Delay</h2>
+            <Slider
+              name={name}
+              property="maxDelay"
+              min="0"
+              max="100"
+              value={effect.maxDelay}
+              handleValueChange={changeEffectValue}
+            />
+          </div>
         </div>
       </div>
     )
