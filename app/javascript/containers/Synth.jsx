@@ -7,6 +7,7 @@ import BpmSlider from '../components/controls/BpmSlider'
 import ToggleSwitch from '../components/controls/ToggleSwitch'
 import PlaySwitch from '../components/controls/PlaySwitch'
 import Knob from '../components/controls/Knob'
+import Keyboard from '../components/Keyboard'
 
 import tune1 from '../tunes/tune1'
 
@@ -722,6 +723,11 @@ export default class Synth extends React.Component {
           changeDecayReverb={this.changeDecayReverb}
           changePreDelayReverb={this.changePreDelayReverb}
           toggleEffect={() => toggleEffect('reverb')}
+        />
+
+        <Keyboard
+          handleMouseDown={this.handleMouseDown}
+          handleMouseUp={this.handleMouseUp}
         />
       </div>
     )

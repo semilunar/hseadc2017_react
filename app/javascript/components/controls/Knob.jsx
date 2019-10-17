@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 
 export default class Knob extends React.Component {
@@ -11,11 +12,14 @@ export default class Knob extends React.Component {
       screenY: 0
     }
 
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
-    this.moveKnob = this.moveKnob.bind(this)
-    this.calculateDeg = this.calculateDeg.bind(this)
+    _.bindAll(
+      this,
+      'handleMouseDown',
+      'handleMouseMove',
+      'handleMouseUp',
+      'moveKnob',
+      'calculateDeg'
+    )
   }
 
   componentDidMount() {

@@ -1,9 +1,9 @@
-import _ from "lodash";
-import React from "react";
+import _ from 'lodash'
+import React from 'react'
 
 export default class Slider extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       mouseDown: false,
@@ -15,23 +15,23 @@ export default class Slider extends React.Component {
       thumb: {
         left: 0
       }
-    };
+    }
 
-    this.slideArea = React.createRef();
+    this.slideArea = React.createRef()
 
     _.bindAll(
       this,
-      "handleMouseMove",
-      "handleMouseDown",
-      "handleMouseUp",
-      "moveThumb",
-      "calculateLeft",
-      "calculateValue"
-    );
+      'handleMouseMove',
+      'handleMouseDown',
+      'handleMouseUp',
+      'moveThumb',
+      'calculateLeft',
+      'calculateValue'
+    )
   }
 
   componentDidMount() {
-    const { x, width } = this.slideArea.current.getBoundingClientRect();
+    const { x, width } = this.slideArea.current.getBoundingClientRect()
 
     this.setState({
       area: {
@@ -42,87 +42,87 @@ export default class Slider extends React.Component {
       thumb: {
         left: this.calculateLeft(width)
       }
-    });
+    })
 
-    document.addEventListener("mouseup", this.handleMouseUp);
-    document.addEventListener("mousemove", this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp)
+    document.addEventListener('mousemove', this.handleMouseMove)
   }
 
   handleDragOver(e) {
-    e.preventDefault();
+    e.preventDefault()
   }
 
   handleMouseDown(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     this.setState({
       mouseDown: true
-    });
+    })
   }
 
   handleMouseUp() {
-    const { name, handleMouseUp } = this.props;
+    const { name, handleMouseUp } = this.props
 
     if (this.state.mouseDown) {
       // handleMouseUp(name);
 
       this.setState({
         mouseDown: false
-      });
+      })
     }
   }
 
   handleMouseMove(e) {
-    const { mouseDown } = this.state;
+    const { mouseDown } = this.state
 
     if (mouseDown) {
-      this.moveThumb(e.screenX);
+      this.moveThumb(e.screenX)
     }
   }
 
   moveThumb(screenX) {
-    const { min, max, handleValueChange } = this.props;
-    const areaLeft = this.state.area.left;
-    const areaRight = this.state.area.right;
-    const thumbLeft = screenX - areaLeft;
+    const { min, max, handleValueChange } = this.props
+    const areaLeft = this.state.area.left
+    const areaRight = this.state.area.right
+    const thumbLeft = screenX - areaLeft
 
     if (thumbLeft >= 0 && screenX <= areaRight) {
-      const value = this.calculateValue(thumbLeft);
-      handleValueChange(value);
+      const value = this.calculateValue(thumbLeft)
+      handleValueChange(value)
 
       this.setState({
         thumb: {
           left: thumbLeft
         }
-      });
+      })
     }
   }
 
   calculateLeft(width) {
-    const { min, max, value } = this.props;
-    const range = max - min;
-    const coef = range / width;
-    const left = value / coef;
+    const { min, max, value } = this.props
+    const range = max - min
+    const coef = range / width
+    const left = value / coef
 
-    return left;
+    return left
   }
 
   calculateValue(thumbLeft) {
-    const { min, max } = this.props;
-    const { width } = this.state.area;
-    const range = max - min;
-    const coef = range / width;
-    const value = thumbLeft * coef;
+    const { min, max } = this.props
+    const { width } = this.state.area
+    const range = max - min
+    const coef = range / width
+    const value = thumbLeft * coef
 
-    return value;
+    return value
   }
 
   render() {
-    const { left } = this.state.thumb;
+    const { left } = this.state.thumb
 
     const style = {
       transform: `translateX(${left}px)`
-    };
+    }
 
     return (
       <div className="Bpm">
@@ -140,6 +140,6 @@ export default class Slider extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
