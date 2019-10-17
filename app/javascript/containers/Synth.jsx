@@ -632,83 +632,9 @@ export default class Synth extends React.Component {
 
     return (
       <div>
-        <h3>Radiohead Loop</h3>
-        <div className="loopBoard">
-          <div onClick={tune1}>Rh loop</div>
-        </div>
+        <div className="loopBoard">hello</div>
 
-        <div className="PresetButton" onClick={() => loadPreset(1)}>
-          Load 1
-        </div>
-        <div className="PresetButton" onClick={() => savePreset(1)}>
-          Save 1
-        </div>
-        <div className="PresetButton" onClick={() => loadPreset(2)}>
-          Load 2
-        </div>
-        <div className="PresetButton" onClick={() => savePreset(2)}>
-          Save 2
-        </div>
-
-        <div className="pedalBoard">
-          <h3>Radiohead Part</h3>
-          <PolySynth
-            synth="rhSynth"
-            instrument={rhSynth}
-            on={partRh.on}
-            togglePlay={() => togglePart('partRh')}
-            changeSynthValue={changeSynthValue}
-          />
-        </div>
-
-        <div className="pedalBoard">
-          <ToneSynth
-            synth="ambientSynth"
-            instrument={ambientSynth}
-            on={loop1.on}
-            togglePlay={() => toggleLoop('loop1')}
-            changeSynthValue={this.changeSynthValue}
-          />
-          <Distortion
-            {...ambientDistortion}
-            toggleEffect={() => toggleEffect('ambientDistortion')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-        </div>
-
-        <div className="pedalBoard">
-          <AutoPanner
-            {...leadAutoPanner}
-            toggleEffect={() => toggleEffect('leadAutoPanner')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <AutoWah
-            {...leadAutoWah}
-            toggleEffect={() => toggleEffect('leadAutoWah')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <BitCrusher
-            {...leadBitCrusher}
-            toggleEffect={() => toggleEffect('leadBitCrusher')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Chebyshev
-            {...leadChebyshev}
-            toggleEffect={() => toggleEffect('leadChebyshev')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Vibrato
-            {...leadVibrato}
-            toggleEffect={() => toggleEffect('leadVibrato')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-        </div>
+        <div className="pedalBoard"></div>
       </div>
     )
   }

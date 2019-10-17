@@ -126,8 +126,4 @@ export default function tune1() {
 
   Tone.Transport.bpm.value = 100
   Tone.Transport.start()
-
-  // this.setState({
-  //   rhSynth
-  // })
 }
