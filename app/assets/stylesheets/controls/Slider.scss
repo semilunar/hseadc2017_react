@@ -26,12 +26,16 @@
 //     }
 //   }
 // }
+
+.sliderContainer {
+  margin: 12px 0;
+}
+
 .Slider {
   position: relative;
   width: 100%;
   height: 1px;
   margin-bottom: 16px;
-  // background: grey;
   border: 1px solid black;
 
   &:last-child {
@@ -40,13 +44,10 @@
 
   .thumb {
     position: absolute;
-    top: -5px;
+    top: -9px;
     left: -5px;
     width: 9px;
-    height: 9px;
-    // margin-left: -10px;
-    border-radius: 10px;
+    height: 18px;
     background: black;
-    // transition: all 0.1s ease;
   }
 }

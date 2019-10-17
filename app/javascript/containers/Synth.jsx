@@ -38,6 +38,14 @@ export default class Synth extends React.Component {
 
     const defaultWetValue = 0.8
 
+    let rhSynth = synths.polySynth()
+    let rhDistortion = effects.distortion()
+    let rhFeedbackEffect = effects.feedbackEffect()
+    let rhReverb = effects.reverb()
+    let rhStereoWidener = effects.stereoWidener()
+    let rhTremolo = effects.tremolo()
+    let rhVibrato = effects.vibrato()
+
     let ambientSynth = synths.toneSynth()
     let ambientAutoFilter = effects.autoFilter()
     let ambientChorus = effects.chorus()
@@ -61,6 +69,11 @@ export default class Synth extends React.Component {
     let leadTremolo = effects.tremolo()
     let leadVibrato = effects.vibrato()
 
+    // let rhLoop = new Tone.Loop(function(time) {
+    //   rhSynth.triggerAttackRelease('C2', '8n', time)
+    // }, '4n')
+    // я делаю луп в парте!
+
     let loop1 = new Tone.Loop(function(time) {
       ambientSynth.triggerAttackRelease('C2', '8n', time)
     }, '4n')
@@ -68,6 +81,20 @@ export default class Synth extends React.Component {
     let loop3 = new Tone.Loop(function(time) {
       leadSynth.triggerAttackRelease('C4', '1m', time)
     }, '1m')
+
+    // rh synth chain
+
+    rhSynth.chain(
+      rhDistortion,
+      rhFeedbackEffect,
+      rhReverb,
+      rhStereoWidener,
+      rhTremolo,
+      rhVibrato,
+      Tone.Master
+    )
+
+    // other synths' chains
 
     ambientSynth.chain(
       ambientAutoFilter,
@@ -98,6 +125,43 @@ export default class Synth extends React.Component {
     )
 
     this.state = {
+      rhSynth,
+      rhDistortion: {
+        name: 'rhDistortion',
+        effect: rhDistortion,
+        wet: defaultWetValue,
+        on: false
+      },
+      rhFeedbackEffect: {
+        name: 'rhFeedbackEffect',
+        effect: rhFeedbackEffect,
+        wet: defaultWetValue,
+        on: false
+      },
+      rhReverb: {
+        name: 'rhReverb',
+        effect: rhReverb,
+        wet: defaultWetValue,
+        on: false
+      },
+      rhStereoWidener: {
+        name: 'rhStereoWidener',
+        effect: rhStereoWidener,
+        wet: defaultWetValue,
+        on: false
+      },
+      rhTremolo: {
+        name: 'rhTremolo',
+        effect: rhTremolo,
+        wet: defaultWetValue,
+        on: false
+      },
+      rhVibrato: {
+        name: 'rhVibrato',
+        effect: rhVibrato,
+        wet: defaultWetValue,
+        on: false
+      },
       ambientSynth,
       ambientAutoFilter: {
         name: 'ambientAutoFilter',
@@ -222,8 +286,8 @@ export default class Synth extends React.Component {
         loop: loop3,
         on: false
       },
-      part1: {
-        part: parts.part1(leadSynth),
+      partRh: {
+        part: parts.partRh(rhSynth),
         on: false
       },
       lastChange: Date.now(),
@@ -239,10 +303,12 @@ export default class Synth extends React.Component {
       'changeSynthValue',
       'toggleEffect',
       'changeEffectWetValue',
-      'changeEffectValue'
+      'changeEffectValue',
+      'loadPreset',
+      'savePreset'
     )
 
-    Tone.Transport.bpm.value = 30
+    Tone.Transport.bpm.value = 100
     Tone.Transport.start()
   }
 
@@ -309,7 +375,7 @@ export default class Synth extends React.Component {
       part.at('1m')
       part.start(0)
       part.loop = true
-      part.loopEnd = '8m'
+      part.loopEnd = '4m'
     }
 
     this.setState({
@@ -384,8 +450,151 @@ export default class Synth extends React.Component {
     })
   }
 
+  loadPreset(presetNumber) {}
+
+  savePreset(presetNumber) {}
+
+  tune1() {
+    let rhSynth = new Tone.PolySynth(4, Tone.Synth, {
+      oscillator: {
+        type: 'triangle',
+        count: 2,
+        spread: 5,
+        phase: 6
+      },
+      envelope: {
+        attack: 3,
+        decay: 3,
+        sustain: 4,
+        release: 3,
+        attackCurve: 'exponential'
+      }
+    }).toMaster()
+
+    let part = new Tone.Part(
+      function(time, event) {
+        rhSynth.triggerAttackRelease(event.note, event.dur, time)
+      },
+      [
+        {
+          time: '0:0:0',
+          note: 'G#4',
+          velocity: 1,
+          dur: '4n'
+        },
+        {
+          time: '0:1:0',
+          note: 'B3',
+          velocity: 1,
+          dur: '4n'
+        },
+        {
+          time: '0:2:0',
+          note: 'E4',
+          velocity: 1,
+          dur: '4n'
+        },
+        {
+          time: '0:3:0',
+          note: 'B3',
+          velocity: 0.1,
+          dur: '4n'
+        },
+        {
+          time: '1:0:0',
+          note: 'G#4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '1:1:0',
+          note: 'B3',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '1:2:0',
+          note: 'E4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '1:3:0',
+          note: 'B3',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '2:0:0',
+          note: 'G#4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '2:1:0',
+          note: 'B3',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '2:2:0',
+          note: 'E4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '2:3:0',
+          note: 'B3',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '3:0:0',
+          note: 'C4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '3:1:0',
+          note: 'D4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '3:2:0',
+          note: 'E4',
+          velocity: 0.3,
+          dur: '4n'
+        },
+        {
+          time: '3:3:0',
+          note: 'F#4',
+          velocity: 0.3,
+          dur: '4n'
+        }
+      ]
+    ).start(0)
+
+    part.loop = true
+    part.loopEnd = '4m'
+
+    Tone.Transport.bpm.value = 100
+    Tone.Transport.start()
+
+    this.setState({
+      rhSynth
+    })
+  }
+
   render() {
     let {
+      rhSynth,
+      rhDistortion,
+      rhFeedbackEffect,
+      rhReverb,
+      rhStereoWidener,
+      rhTremolo,
+      rhVibrato,
       ambientSynth,
       ambientAutoFilter,
       ambientChorus,
@@ -408,7 +617,7 @@ export default class Synth extends React.Component {
       leadTremolo,
       leadVibrato,
       loop1,
-      part1
+      partRh
     } = this.state
 
     let {
@@ -423,8 +632,36 @@ export default class Synth extends React.Component {
 
     return (
       <div>
-        <div onClick={tune1}>Rh loop</div>
-        <div className="effectsBoard">
+        <h3>Radiohead Loop</h3>
+        <div className="loopBoard">
+          <div onClick={tune1}>Rh loop</div>
+        </div>
+
+        <div className="PresetButton" onClick={() => loadPreset(1)}>
+          Load 1
+        </div>
+        <div className="PresetButton" onClick={() => savePreset(1)}>
+          Save 1
+        </div>
+        <div className="PresetButton" onClick={() => loadPreset(2)}>
+          Load 2
+        </div>
+        <div className="PresetButton" onClick={() => savePreset(2)}>
+          Save 2
+        </div>
+
+        <div className="pedalBoard">
+          <h3>Radiohead Part</h3>
+          <PolySynth
+            synth="rhSynth"
+            instrument={rhSynth}
+            on={partRh.on}
+            togglePlay={() => togglePart('partRh')}
+            changeSynthValue={changeSynthValue}
+          />
+        </div>
+
+        <div className="pedalBoard">
           <ToneSynth
             synth="ambientSynth"
             instrument={ambientSynth}
@@ -432,58 +669,15 @@ export default class Synth extends React.Component {
             togglePlay={() => toggleLoop('loop1')}
             changeSynthValue={this.changeSynthValue}
           />
-          <AutoFilter
-            {...ambientAutoFilter}
-            toggleEffect={() => toggleEffect('ambientAutoFilter')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Chorus
-            {...ambientChorus}
-            toggleEffect={() => toggleEffect('ambientChorus')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
           <Distortion
             {...ambientDistortion}
             toggleEffect={() => toggleEffect('ambientDistortion')}
             changeEffectWetValue={changeEffectWetValue}
             changeEffectValue={changeEffectValue}
           />
-          <FeedbackDelay
-            {...ambientFeedbackDelay}
-            toggleEffect={() => toggleEffect('ambientFeedbackDelay')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Freeverb
-            {...ambientFreeverb}
-            toggleEffect={() => toggleEffect('ambientFreeverb')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Phaser
-            {...ambientPhaser}
-            toggleEffect={() => toggleEffect('ambientPhaser')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <PingPongDelay
-            {...ambientPingPongDelay}
-            toggleEffect={() => toggleEffect('ambientPingPongDelay')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
         </div>
 
-        <div className="effectsBoard">
-          <PolySynth
-            synth="leadSynth"
-            instrument={ambientSynth}
-            on={part1.on}
-            togglePlay={() => togglePart('part1')}
-            changeSynthValue={changeSynthValue}
-          />
+        <div className="pedalBoard">
           <AutoPanner
             {...leadAutoPanner}
             toggleEffect={() => toggleEffect('leadAutoPanner')}
@@ -505,48 +699,6 @@ export default class Synth extends React.Component {
           <Chebyshev
             {...leadChebyshev}
             toggleEffect={() => toggleEffect('leadChebyshev')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Distortion
-            {...leadDistortion}
-            toggleEffect={() => toggleEffect('leadDistortion')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <FeedbackEffect
-            {...leadFeedbackEffect}
-            toggleEffect={() => toggleEffect('leadFeedbackEffect')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <JcReverb
-            {...leadJcReverb}
-            toggleEffect={() => toggleEffect('leadJcReverb')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <PitchShift
-            {...leadPitchShift}
-            toggleEffect={() => toggleEffect('leadPitchShift')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Reverb
-            {...leadReverb}
-            toggleEffect={() => toggleEffect('leadReverb')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <StereoWidener
-            {...leadStereoWidener}
-            toggleEffect={() => toggleEffect('leadStereoWidener')}
-            changeEffectWetValue={changeEffectWetValue}
-            changeEffectValue={changeEffectValue}
-          />
-          <Tremolo
-            {...leadTremolo}
-            toggleEffect={() => toggleEffect('leadTremolo')}
             changeEffectWetValue={changeEffectWetValue}
             changeEffectValue={changeEffectValue}
           />

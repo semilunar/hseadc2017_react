@@ -22,4 +22,8 @@
 
 body {
   font-family: 'Sporting Grotesque';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  color: #1c1c1c;
 }

@@ -25,43 +25,41 @@ export default class Distortion extends React.Component {
     } = this.props
 
     return (
-      <div className="effect">
-        <div className="row">
-          <ToggleSwitch
-            value="Distortion"
-            current={on}
-            handleClick={toggleEffect}
-          />
+      <div className="Effect">
+        <ToggleSwitch
+          value="Distortion"
+          current={on}
+          handleClick={toggleEffect}
+        />
 
-          <h2>Wet</h2>
-          <Slider
-            name={name}
-            min="0"
-            max="1"
-            value={wet}
-            handleValueChange={changeEffectWetValue}
-          />
+        <h2>Wet</h2>
+        <Slider
+          name={name}
+          min="0"
+          max="1"
+          value={wet}
+          handleValueChange={changeEffectWetValue}
+        />
 
-          <h2>Distortion</h2>
-          <Slider
-            name={name}
-            property="distortion"
-            min="0"
-            max="100"
-            on={on}
-            value={effect.distortion}
-            handleValueChange={changeEffectValue}
-          />
+        <h2>Distortion</h2>
+        <Slider
+          name={name}
+          property="distortion"
+          min="0"
+          max="100"
+          on={on}
+          value={effect.distortion}
+          handleValueChange={changeEffectValue}
+        />
 
-          <h2>Oversample</h2>
-          <ButtonSet
-            name={name}
-            property="oversample"
-            set={set}
-            value={effect.oversample}
-            handleValueChange={changeEffectValue}
-          />
-        </div>
+        <h2>Oversample</h2>
+        <ButtonSet
+          name={name}
+          property="oversample"
+          set={set}
+          value={effect.oversample}
+          handleValueChange={changeEffectValue}
+        />
       </div>
     )
   }
