@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React from 'react'
 
 export default class Knob extends React.Component {
@@ -8,18 +7,15 @@ export default class Knob extends React.Component {
     this.state = {
       mouseDown: false,
       value: props.value,
-      deg: this.props.initialDeg,
+      deg: -90,
       screenY: 0
     }
 
-    _.bindAll(
-      this,
-      'handleMouseDown',
-      'handleMouseMove',
-      'handleMouseUp',
-      'moveKnob',
-      'calculateDeg'
-    )
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseMove = this.handleMouseMove.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.moveKnob = this.moveKnob.bind(this)
+    this.calculateDeg = this.calculateDeg.bind(this)
   }
 
   componentDidMount() {
@@ -29,7 +25,7 @@ export default class Knob extends React.Component {
     this.setState({
       mouseDown: false,
       value: value,
-      deg: this.props.initialDeg + deg,
+      deg: -90 + deg,
       screenY: 0
     })
 
@@ -42,7 +38,7 @@ export default class Knob extends React.Component {
 
     this.setState({
       mouseDown: true,
-      screenY: e.screenX
+      screenY: e.screenY
     })
   }
 
@@ -50,7 +46,7 @@ export default class Knob extends React.Component {
     const { mouseDown } = this.state
 
     if (mouseDown) {
-      this.moveKnob(e.screenX)
+      this.moveKnob(e.screenY)
     }
   }
 
@@ -58,7 +54,7 @@ export default class Knob extends React.Component {
     const { name, handleMouseUp } = this.props
 
     if (this.state.mouseDown) {
-      // handleMouseUp(name)
+      // handleMouseUp(name);
 
       this.setState({
         mouseDown: false
@@ -82,18 +78,18 @@ export default class Knob extends React.Component {
       value = max
     }
 
-    this.props.handleValueChange(this.props.name, value)
+    this.props.handleValueChange(value)
 
     this.setState({
       screenY: screenY,
       value: value,
-      deg: this.props.initialDeg + this.calculateDeg(value)
+      deg: -90 + this.calculateDeg(value)
     })
   }
 
   calculateDeg(value) {
     const { max } = this.props
-    const coef = this.props.overDeg / max
+    const coef = 120 / max
     const deg = value * coef
 
     return deg
@@ -103,7 +99,7 @@ export default class Knob extends React.Component {
     const { deg } = this.state
 
     const style = {
-      transform: `rotate(${deg}deg)`
+      transform: `rotate(${-deg}deg)`
     }
 
     return (

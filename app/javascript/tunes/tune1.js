@@ -9,9 +9,9 @@ export default function tune1() {
       phase: 6
     },
     envelope: {
-      attack: 3,
-      decay: 3,
-      sustain: 4,
+      attack: 5,
+      decay: 5,
+      sustain: 10,
       release: 3,
       attackCurve: 'exponential'
     }
@@ -19,7 +19,7 @@ export default function tune1() {
 
   let part = new Tone.Part(
     function(time, event) {
-      rhSynth.triggerAttackRelease(event.note, event.dur, time)
+      synth.triggerAttackRelease(event.note, event.dur, time)
     },
     [
       {
@@ -124,6 +124,6 @@ export default function tune1() {
   part.loop = true
   part.loopEnd = '4m'
 
-  Tone.Transport.bpm.value = 100
+  Tone.Transport.bpm.value = 60
   Tone.Transport.start()
 }
