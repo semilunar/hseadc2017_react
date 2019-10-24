@@ -1,65 +1,72 @@
 import React from 'react'
-
-import PlaySwitch from '../controls/PlaySwitch'
+import _ from 'lodash'
 import ToggleSwitch from '../controls/ToggleSwitch'
-import Slider from '../controls/Slider'
 import Knob from '../controls/Knob'
-import ButtonSet from '../controls/ButtonSet'
+import Picker from '../controls/Picker'
 
 export default class Distortion extends React.Component {
   constructor(props) {
     super(props)
+
+    // console.log(this.props.value.Q)
+    _.bindAll(this, 'handlerFilter', 'handlePicker', 'handlerFilterKnob')
+  }
+
+  handlePicker(value) {
+    this.props.handler('distortion', 'oversample', value)
+  }
+
+  handlerFilter(value) {
+    this.props.subHandler('distortion', 'filter', 'type', value)
+  }
+  handlerFilterKnob(name, param, value) {
+    this.props.subHandler(name, 'filter', param, value)
   }
 
   render() {
-    const set = ['none', '2x', '4x']
-
-    const {
-      name,
-      effect,
-      wet,
-      on,
-      toggleEffect,
-      changeEffectWetValue,
-      changeEffectValue
-    } = this.props
-
+    let value = this.props.value
     return (
       <div className="Effect">
+        <h1>Distortion</h1>
+
         <ToggleSwitch
-          value="Distortion"
-          current={on}
-          handleClick={toggleEffect}
+          current={this.props.on}
+          handleClick={this.props.toggleEffect}
+          value="distortion"
+        />
+        <Knob
+          name="distortion"
+          paramName="wet"
+          min={1}
+          max={100}
+          increment={100}
+          initialDeg={-45}
+          overDeg={270}
+          value={value.wet.value}
+          handleValueChange={this.props.handler}
         />
 
-        <h2>Wet</h2>
-        <Slider
-          name={name}
-          min="0"
-          max="1"
-          value={wet}
-          handleValueChange={changeEffectWetValue}
-        />
-
-        <h2>Distortion</h2>
-        <Slider
-          name={name}
-          property="distortion"
-          min="0"
-          max="100"
-          on={on}
-          value={effect.distortion}
-          handleValueChange={changeEffectValue}
-        />
-
-        <h2>Oversample</h2>
-        <ButtonSet
-          name={name}
-          property="oversample"
-          set={set}
-          value={effect.oversample}
-          handleValueChange={changeEffectValue}
-        />
+        <div className="controlsContainer">
+          <div className="row">
+            <Knob
+              name="distortion"
+              paramName="distortion"
+              min={1}
+              max={100}
+              increment={1}
+              initialDeg={-45}
+              overDeg={270}
+              value={value.distortion}
+              handleValueChange={this.props.handler}
+            />
+          </div>
+          <Picker
+            current={value.oversample}
+            items={['none', '2x', '4x']}
+            names={['none', '2x', '4x']}
+            handler={this.handlePicker}
+          />
+        </div>
       </div>
     )
   }

@@ -1,13 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
 
-import Synth from '../containers/Synth'
+import Synth from "../containers/Synth";
 
-document.addEventListener('DOMContentLoaded', () => {
-  let data = JSON.parse(document.getElementById('data').dataset.props)
-
+document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-    <Synth {...data} />,
-    document.body.appendChild(document.createElement('div'))
-  )
-})
+    <Synth />,
+    document.body.appendChild(document.createElement("div"))
+  );
+});

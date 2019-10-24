@@ -1,12 +1,12 @@
-import _ from 'lodash'
 import Tone from 'tone'
 import classnames from 'classnames'
 import React from 'react'
 
 import Octaves from './Octaves'
-import ButtonSet from './controls/ButtonSet'
+import ButtonSet from './ButtonSet'
 import Key from './Key'
-import Slider from './controls/Slider'
+import KeyboardListener from './KeyboardListener'
+import Slider from './Slider'
 
 export default class Keyboard extends React.Component {
   constructor(props) {
@@ -14,10 +14,11 @@ export default class Keyboard extends React.Component {
 
     this.state = {
       notes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+      playKeys: ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j'],
       octave: 3
     }
 
-    _.bindAll(this, 'changeOct')
+    this.changeOct = this.changeOct.bind(this)
   }
 
   changeOct(e) {
@@ -25,6 +26,7 @@ export default class Keyboard extends React.Component {
     this.setState({
       octave: e.target.value
     })
+    console.log('state', this.state.octave)
   }
 
   render() {
@@ -41,8 +43,7 @@ export default class Keyboard extends React.Component {
       min,
       max
     } = this.props
-
-    let { notes, octave } = this.state
+    let { notes, playKeys, octave } = this.state
     let keys = []
 
     notes.map((note, i) => {
@@ -51,6 +52,7 @@ export default class Keyboard extends React.Component {
           octave={octave}
           note={note}
           key={i}
+          playKey={playKeys[i]}
           currentNote={currentNote}
           handleMouseUp={handleMouseUp}
           handleMouseDown={handleMouseDown}
@@ -61,11 +63,27 @@ export default class Keyboard extends React.Component {
     return (
       <div className="keySynth">
         <div className="keyContainer">
+          <KeyboardListener
+            handleMouseDown={handleMouseDown}
+            handleMouseUp={handleMouseUp}
+            octave={octave}
+          />
+
           <div className="keyboard">{keys}</div>
         </div>
 
         <div className="keyPresets">
           <div className="keyControls">
+            <div className="keyVolume">
+              <h1>Volume</h1>
+              <Slider
+                name="vol"
+                min="0"
+                max="1"
+                value={this.props.gain}
+                handleValueChange={this.props.handleVolume}
+              />
+            </div>
             <Octaves
               value={octave}
               min="0"
@@ -73,6 +91,7 @@ export default class Keyboard extends React.Component {
               changeOct={this.changeOct}
             />
           </div>
+
           <div className="keyWaves">
             <ButtonSet
               name={name}

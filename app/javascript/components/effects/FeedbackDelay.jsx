@@ -1,10 +1,8 @@
 import React from 'react'
-
-import PlaySwitch from '../controls/PlaySwitch'
+import _ from 'lodash'
 import ToggleSwitch from '../controls/ToggleSwitch'
-import Slider from '../controls/Slider'
 import Knob from '../controls/Knob'
-import ButtonSet from '../controls/ButtonSet'
+import Picker from '../controls/Picker'
 
 export default class FeedbackDelay extends React.Component {
   constructor(props) {
@@ -22,36 +20,41 @@ export default class FeedbackDelay extends React.Component {
       changeEffectValue
     } = this.props
 
+    let value = this.props.value
+
     return (
       <div className="Effect">
+        <h1>Feedback Delay</h1>
+
         <ToggleSwitch
-          value="FeedbackDelay"
+          value="feedbackDelay"
           current={on}
           handleClick={toggleEffect}
         />
 
         <div className="controlsContainer">
-          <div className="controlsRow">
-            <h2>Wet</h2>
-            <Slider
-              name={name}
-              property="wet"
-              min="0"
-              max="1"
-              value={wet}
-              handleValueChange={changeEffectWetValue}
-            />
-
-            <h2>Max Delay</h2>
-            <Slider
-              name={name}
-              property="maxDelay"
-              min="0"
-              max="100"
-              value={effect.maxDelay}
-              handleValueChange={changeEffectValue}
-            />
-          </div>
+          <Knob
+            name="feedbackDelay"
+            paramName="wet"
+            min={1}
+            max={100}
+            increment={100}
+            initialDeg={-45}
+            overDeg={270}
+            value={value.wet.value}
+            handleValueChange={this.props.handler}
+          />
+          <Knob
+            name="feedbackDelay"
+            paramName="delayTime"
+            min={1}
+            max={100}
+            increment={100}
+            initialDeg={-45}
+            overDeg={270}
+            value={value.delayTime.value}
+            handleValueChange={this.props.handler}
+          />
         </div>
       </div>
     )

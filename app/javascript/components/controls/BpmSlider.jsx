@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 
-export default class Slider extends React.Component {
+export default class BpmSlider extends React.Component {
   constructor(props) {
     super(props)
 
@@ -92,7 +92,7 @@ export default class Slider extends React.Component {
 
       this.setState({
         thumb: {
-          left: thumbLeft
+          left: thumbLeft - 15
         }
       })
     }
@@ -121,7 +121,7 @@ export default class Slider extends React.Component {
     const { left } = this.state.thumb
 
     const style = {
-      transform: `translateX(${left}px)`
+      transform: `translate(${left}px, -15px)`
     }
 
     return (

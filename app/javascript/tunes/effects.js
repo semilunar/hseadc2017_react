@@ -84,6 +84,17 @@ function chorus() {
   return f
 }
 
+// function convolver() {
+//   let f = new Tone.Convolver({
+//     onload: Tone.noOp,
+//     normalize: true
+//   })
+//
+//   f.wet.value = 0
+//
+//   return f
+// }
+
 function distortion() {
   let f = new Tone.Distortion({
     distortion: 0,
@@ -94,6 +105,10 @@ function distortion() {
 
   return f
 }
+
+// let effect = new Tone.Effect({
+//   wet: 1
+// })
 
 function feedbackDelay() {
   let f = new Tone.FeedbackDelay({
@@ -136,6 +151,8 @@ function jcReverb() {
 
   return f
 }
+
+// MidSideEffect ???
 
 function phaser() {
   let f = new Tone.Phaser({
@@ -186,6 +203,9 @@ function reverb() {
   return f
 }
 
+// StereoEffect ???
+// StereoFeedbackEffect ???
+
 function stereoWidener() {
   let f = new Tone.StereoWidener({
     width: 0.5
@@ -195,6 +215,8 @@ function stereoWidener() {
 
   return f
 }
+
+// StereoXFeedbackEffect ???
 
 function tremolo() {
   let f = new Tone.Tremolo({

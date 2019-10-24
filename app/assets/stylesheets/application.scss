@@ -21,9 +21,16 @@
 }
 
 body {
-  font-family: 'Sporting Grotesque';
+  font-family: 'Fugue';
+  text-transform: uppercase;
+  font-weight: medium;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fff;
+  background: #fff;
   color: #1c1c1c;
+
+  .app {
+    display: flex;
+    justify-content: space-between;
+  }
 }

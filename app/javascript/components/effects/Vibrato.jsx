@@ -1,86 +1,76 @@
 import React from 'react'
-
-import PlaySwitch from '../controls/PlaySwitch'
+import _ from 'lodash'
 import ToggleSwitch from '../controls/ToggleSwitch'
-import Slider from '../controls/Slider'
 import Knob from '../controls/Knob'
-import ButtonSet from '../controls/ButtonSet'
+import Picker from '../controls/Picker'
 
 export default class Vibrato extends React.Component {
   constructor(props) {
     super(props)
+
+    _.bindAll(this, 'handlePicker')
+  }
+
+  handlePicker(value) {
+    this.props.handler('vibrato', 'type', value)
   }
 
   render() {
-    const set = ['sine', 'square', 'triangle', 'sawtooth']
-
-    const {
-      name,
-      effect,
-      wet,
-      on,
-      toggleEffect,
-      changeEffectWetValue,
-      changeEffectValue
-    } = this.props
-
+    let value = this.props.value
     return (
       <div className="Effect">
-        <ToggleSwitch value="Vibrato" current={on} handleClick={toggleEffect} />
+        <h1>Vibrato</h1>
+
+        <ToggleSwitch
+          current={this.props.on}
+          handleClick={this.props.toggleEffect}
+          value="vibrato"
+        />
+
+        <Knob
+          name="vibrato"
+          paramName="wet"
+          min={1}
+          max={100}
+          increment={100}
+          initialDeg={-45}
+          overDeg={270}
+          value={value.wet.value}
+          handleValueChange={this.props.handler}
+        />
 
         <div className="controlsContainer">
-          <div className="controlsRow">
-            <h2>Wet</h2>
-            <Slider
-              name={name}
-              property="wet"
-              min="0"
-              max="1"
-              value={wet}
-              handleValueChange={changeEffectWetValue}
+          <div className="row">
+            <Knob
+              name="vibrato"
+              paramName="frequency"
+              min={1}
+              max={100}
+              increment={1}
+              initialDeg={-45}
+              overDeg={270}
+              value={value.wet.value}
+              handleValueChange={this.props.handler}
             />
-
-            <h2>Max Delay</h2>
-            <Slider
-              name={name}
-              property="maxDelay"
-              min="0"
-              max="1"
-              value={effect.maxDelay}
-              handleValueChange={changeEffectValue}
-            />
-
-            <h2>Frequency</h2>
-            <Slider
-              name={name}
-              property="frequency.value"
-              min="0"
-              max="1000"
-              on={on}
-              value={effect.frequency.value}
-              handleValueChange={changeEffectValue}
-            />
-
-            <h2>Depth</h2>
-            <Slider
-              name={name}
-              property="depth.value"
-              min="0"
-              max="1"
-              on={on}
-              value={effect.depth.value}
-              handleValueChange={changeEffectValue}
-            />
-
-            <h2>Type</h2>
-            <ButtonSet
-              name={name}
-              property="type"
-              set={set}
-              value={effect.type}
-              handleValueChange={changeEffectValue}
+            <Knob
+              name="vibrato"
+              paramName="depth"
+              min={1}
+              max={100}
+              increment={100}
+              initialDeg={-45}
+              overDeg={270}
+              value={value.wet.value}
+              handleValueChange={this.props.handler}
             />
           </div>
+
+          <Picker
+            current={value.oversample}
+            items={['sine', 'triangle', 'square', 'sawtooth']}
+            names={['sine', 'triangle', 'square', 'sawtooth']}
+            handler={this.handlePicker}
+          />
         </div>
       </div>
     )

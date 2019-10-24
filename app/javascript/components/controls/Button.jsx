@@ -1,5 +1,5 @@
-import React from 'react'
 import classnames from 'classnames'
+import React from 'react'
 
 export default class Button extends React.Component {
   constructor(props) {
@@ -15,10 +15,7 @@ export default class Button extends React.Component {
     })
 
     return (
-      <div
-        className={classes}
-        onClick={() => handleClick(name, property, option)}
-      >
+      <div className={classes} onClick={() => handleClick(option)}>
         {option}
       </div>
     )
